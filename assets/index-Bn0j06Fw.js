@@ -1251,7 +1251,7 @@ import{n as e,r as t,t as n}from"./rolldown-runtime-hePW80VL.js";(function(){let
                   `:e.editMode===`mappings`?X`
                         <${uM.assign({savedGamepadLayouts:n,gamepadDevices:l,selectedGamepadIndex:e.gamepadIndexForEditing,savedGamepadModelMap:r,selectedGamepadInput:e.inputForEditing,inputDeviceHandler:e.deviceHandler})}
                             ${hO(uM.events.selectedGamepadInputChange,e=>{t({inputForEditing:e.detail})})}
-                            ${hO(uM.events.inputMapSave,async t=>{if(n instanceof Error)throw TypeError(`Cannot save mapping, failed to load current mappings.`);let i=e.gamepadDevices[e.gamepadIndexForEditing];if(!i)throw Error(`Cannot update layouts, failed to find selected device`);let a=cu({gamepad:i,layouts:n,gamepadModelMap:r}),o=au(),s=!a||ou(a.systemVersions,o),c=du(i),l=s?a??c:a?{...cl(a),systemVersions:c.systemVersions}:c;l.inputMappings[t.detail.inputName]=t.detail.mappedName,(!a||!s)&&n.push(l),e.savedGamepadLayouts.setValue(cl(n)),await Gj(n)})}
+                            ${hO(uM.events.inputMapSave,async t=>{if(n instanceof Error)throw TypeError(`Cannot save mapping, failed to load current mappings.`);let i=e.gamepadDevices[e.gamepadIndexForEditing];if(!i)throw Error(`Cannot update layouts, failed to find selected device`);let a=cu({gamepad:i,layouts:n,gamepadModelMap:r}),o=au(),s=!a||ou(a.systemVersions,o),c=du(i,r),l=s?a??c:a?{...cl(a),systemVersions:c.systemVersions}:c;l.inputMappings[t.detail.inputName]=t.detail.mappedName,(!a||!s)&&n.push(l),e.savedGamepadLayouts.setValue(cl(n)),await Gj(n)})}
                         ></${uM}>
                     `:``;return X`
             <main
