@@ -6,7 +6,7 @@ import {
     getSystemVersions,
     includesSystemVersion,
 } from '@antha/gamepad-type';
-import {copyThroughJson, makeWritable, pickObjectKeys} from '@augment-vir/common';
+import {pickObjectKeys} from '@augment-vir/common';
 import {asyncProp, css, defineElement, html, listen} from 'element-vir';
 import {
     type AllDevices,
@@ -255,7 +255,7 @@ export const VirApp = defineElement()({
             `;
         }
 
-        const savedLayouts = makeWritable(state.savedGamepadLayouts.value);
+        const savedLayouts = state.savedGamepadLayouts.value;
         const savedModelMap = state.savedGamepadModelMap.value;
         const submittedChanges = state.submittedChanges.value;
 
@@ -407,19 +407,32 @@ export const VirApp = defineElement()({
                                     ? (matchingLayout ?? emptyLayout)
                                     : matchingLayout
                                       ? {
-                                            ...copyThroughJson(matchingLayout),
+                                            ...matchingLayout,
                                             systemVersions: emptyLayout.systemVersions,
                                         }
                                       : emptyLayout;
 
-                                layoutToEdit.inputMappings[event.detail.inputName] =
-                                    event.detail.mappedName;
+                                const updatedLayout: GamepadLayout = {
+                                    ...layoutToEdit,
+                                    inputMappings: {
+                                        ...layoutToEdit.inputMappings,
+                                        [event.detail.inputName]: event.detail.mappedName,
+                                    },
+                                };
+                                const updatedLayouts =
+                                    matchingLayout && areSystemsEqual
+                                        ? savedLayouts.map((savedLayout) => {
+                                              return savedLayout === matchingLayout
+                                                  ? updatedLayout
+                                                  : savedLayout;
+                                          })
+                                        : [
+                                              ...savedLayouts,
+                                              updatedLayout,
+                                          ];
 
-                                if (!matchingLayout || !areSystemsEqual) {
-                                    savedLayouts.push(layoutToEdit);
-                                }
-                                state.savedGamepadLayouts.setValue(copyThroughJson(savedLayouts));
-                                await saveLayouts(savedLayouts);
+                                state.savedGamepadLayouts.setValue(updatedLayouts);
+                                await saveLayouts(updatedLayouts);
                             })}
                         ></${VirEditMappingsModal}>
                     `
