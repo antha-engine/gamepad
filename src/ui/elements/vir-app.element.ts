@@ -398,7 +398,10 @@ export const VirApp = defineElement()({
                                       )
                                     : true;
 
-                                const emptyLayout = createEmptyGamepadLayout(selectedGamepad);
+                                const emptyLayout = createEmptyGamepadLayout(
+                                    selectedGamepad,
+                                    savedModelMap,
+                                );
 
                                 const layoutToEdit: GamepadLayout = areSystemsEqual
                                     ? (matchingLayout ?? emptyLayout)
